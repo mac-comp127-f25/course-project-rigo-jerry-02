@@ -6,6 +6,7 @@ import audio.Waveform;
 import audioplayer.Note;
 import audioplayer.Song;
 import edu.macalester.graphics.GraphicsGroup;
+import edu.macalester.graphics.GraphicsObject;
 import edu.macalester.graphics.Rectangle;
 
 /**
@@ -18,9 +19,9 @@ public class LevelScroller extends GraphicsGroup {
 
     private GraphicsGroup noteGroup = new GraphicsGroup();
     private Map<Note,Rectangle> notesToRectangles = new HashMap<>();
+    private Map<Rectangle,Note> rectanglesToNotes = new HashMap<>();
 
     private final double pixelsPerSecond, pixelsPerSemitone;
-    private final Map<Waveform,Color> waveformColors = new HashMap<>();
 
     /**
      * Creates an empty song visualization.
@@ -39,20 +40,38 @@ public class LevelScroller extends GraphicsGroup {
      * Shows the notes of the given song, removing any song already present.
      */
     public void showSong(Song song) {
-        noteGroup.removeAll();
-        notesToRectangles.clear();
+        this.removeAll();
         for (Note note : song.getNotes()) {
-            Rectangle noteRectangle = new Rectangle(note.getStartTime() * pixelsPerSecond, (MAX_PITCH - note.getPitch()) * pixelsPerSemitone, note.getDuration() * pixelsPerSecond, pixelsPerSemitone);
-            noteRectangle.setStrokeWidth(0.5);
-            noteRectangle.setFillColor(getNoteColor(note, false));
-            noteGroup.add(noteRectangle);
-            notesToRectangles.put(note, noteRectangle);
+            if (note.getWaveform() instanceof audio.D || note.getWaveform() instanceof audio.F || note.getWaveform() instanceof audio.J || note.getWaveform() instanceof audio.K) {
+                Rectangle noteRectangle = new Rectangle(note.getStartTime() * pixelsPerSecond, (MAX_PITCH - note.getPitch()) * pixelsPerSemitone, note.getDuration() * pixelsPerSecond, pixelsPerSemitone);
+                noteRectangle.setStrokeWidth(0.5);
+                noteRectangle.setFillColor(getNoteColor(note));
+                noteGroup.add(noteRectangle);
+                notesToRectangles.put(note, noteRectangle);
+                rectanglesToNotes.put(noteRectangle, note);
+            }
         }
     }
 
     @Override
     public void removeAll() {
         noteGroup.removeAll();
+        notesToRectangles.clear();
+        rectanglesToNotes.clear();
+    }
+
+    /**
+     * Use this function when the user 
+     */
+    public boolean tryToRemove(Note noteToRemove, double currentTime) {
+        if (noteToRemove.isHappening(currentTime) && (noteToRemove.getWaveform() instanceof audio.D || noteToRemove.getWaveform() instanceof audio.F || noteToRemove.getWaveform() instanceof audio.J || noteToRemove.getWaveform() instanceof audio.K)) {
+            Rectangle rectangleToRemove = notesToRectangles.get(noteToRemove);
+            noteGroup.remove(rectangleToRemove);
+            notesToRectangles.remove(noteToRemove);
+            rectanglesToNotes.remove(rectangleToRemove);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -65,32 +84,17 @@ public class LevelScroller extends GraphicsGroup {
         // move noteGroup to scroll display
         noteGroup.setPosition((2 - seconds) * pixelsPerSecond, getPosition().getY()); // noteGroup is 2 seconds further to the right than normal because highlighting notes looks cooler when you can see them unhighlight again
 
-        // highlight currently playing notes white
+        // highlight currently clicked notes white
         for (Note note : notesToRectangles.keySet()) {
             if (seconds >= note.getStartTime() && seconds <= note.getEndTime()) {
-                notesToRectangles.get(note).setFillColor(Color.WHITE); // if seconds is during the time the note is playing, make it white
-            } else if (seconds > note.getEndTime()) {
-                notesToRectangles.get(note).setFillColor(getNoteColor(note, true)); // if the note's already done playing, set it back to what it was before, but somewhat transparent
+                notesToRectangles.get(note).setFillColor(Color.WHITE);
             } else {
-                notesToRectangles.get(note).setFillColor(getNoteColor(note, false)); // if the note hasn't started playing yet, set it to what it's supposed to be while we're here just in case
-            }
-            if (done) {
-                notesToRectangles.get(note).setFillColor(getNoteColor(note, true)); // when the entire song finishes technically the playhead never actually exits the last notes so set them transparent too if the song's done
+                notesToRectangles.get(note).setFillColor(getNoteColor(note));
             }
         }
     }
 
-    private Color getNoteColor(Note note, boolean donePlaying) {
-        Waveform waveform = note.getWaveform();
-        Color color = waveformColors.get(waveform);
-        if (color == null) {
-            color = Color.getHSBColor(waveformColors.size() * 0.382f % 1, 1, 0.6f);
-            waveformColors.put(waveform, color);
-        }
-        if (donePlaying) {
-            return new Color(color.getRed(), color.getGreen(), color.getBlue(), 100);
-        } else {
-            return color;
-        }
+    private Color getNoteColor(Note note) {
+        return Color.LIGHT_GRAY;
     }
 }

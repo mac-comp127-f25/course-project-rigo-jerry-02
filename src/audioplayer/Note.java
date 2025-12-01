@@ -10,7 +10,7 @@ import java.util.Objects;
  * A single note in a piece of music: a waveform at a given pitch, starting at a certain time, and
  * lasting for a certain duration.
  */
-public final class Note {
+public class Note {
     private final Waveform waveform;
     private final double pitch, startTime, duration;
 
@@ -35,6 +35,14 @@ public final class Note {
 
     public double getPitch() {
         return pitch;
+    }
+
+    /**
+     * Returns whether this note is currently playing, given the input timestamp in the song.
+     * @param timestamp The amount of time in seconds into the song we're currently at
+     */
+    public boolean isHappening(double timestamp) {
+        return (startTime <= timestamp) && (timestamp <= startTime + duration);
     }
 
     public double getStartTime() {

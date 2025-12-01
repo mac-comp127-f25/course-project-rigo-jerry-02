@@ -17,7 +17,7 @@ public class GuitarHeroGame {
     private int score = 0;
     private int misses = 0;
     private CanvasWindow canvas;
-    private Level level;
+    private LevelDataStorer level;
     private List<Square> notes = new ArrayList<>();
 
     public GuitarHeroGame() {
