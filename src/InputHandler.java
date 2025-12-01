@@ -46,10 +46,10 @@ public class InputHandler {
                 break;
 
             // GUI inputs
-            case TAB:
+            case LEFT_ARROW:
                 pressed = (event.getKey() == Key.LEFT_ARROW);
                 break;
-            case SHIFTTAB:
+            case RIGHT_ARROW:
                 pressed = (event.getKey() == Key.RIGHT_ARROW);
                 break;
             case ENTER:
@@ -103,8 +103,8 @@ public class InputHandler {
         InputHandler FHandler = new InputHandler(Input.F);
         InputHandler JHandler = new InputHandler(Input.J);
         InputHandler KHandler = new InputHandler(Input.K);
-        InputHandler TABHandler = new InputHandler(Input.TAB);
-        InputHandler SHIFTTABHandler = new InputHandler(Input.SHIFTTAB);
+        InputHandler TABHandler = new InputHandler(Input.LEFT_ARROW);
+        InputHandler SHIFTTABHandler = new InputHandler(Input.RIGHT_ARROW);
         InputHandler ENTERHandler = new InputHandler(Input.ENTER);
         InputHandler ESCAPEHandler = new InputHandler(Input.ESCAPE);
 

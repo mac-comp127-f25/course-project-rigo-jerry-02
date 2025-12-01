@@ -3,8 +3,8 @@ public enum Input {
     F,
     J,
     K,
-    TAB,
-    SHIFTTAB,
+    LEFT_ARROW,
+    RIGHT_ARROW,
     ENTER,
     ESCAPE
 }
