@@ -25,17 +25,13 @@ public class GuitarHeroGame {
 
         drawBackground();
         drawLanes();
-        dropSquare();
+
 
         canvas.animate(() -> {});   
     }
 
     private void drawLanes() {
   
-    }
-
-    private void dropSquare() {
-
     }
 
     private void drawBackground() {
