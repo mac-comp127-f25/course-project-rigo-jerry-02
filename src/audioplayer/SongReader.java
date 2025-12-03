@@ -40,6 +40,10 @@ public class SongReader {
         waveforms.put("square", new SquareWave());
         waveforms.put("saw", new SawtoothWave());
         waveforms.put("noise", new RandomNoise());
+        waveforms.put("d", new D());
+        waveforms.put("f", new F());
+        waveforms.put("j", new J());
+        waveforms.put("k", new K());
     }
 
     /**
