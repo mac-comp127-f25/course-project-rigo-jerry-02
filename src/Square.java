@@ -4,7 +4,7 @@ import java.awt.Color;
 
 
 public class Square {
-    public static final double SIZE = 30;
+    public static final double SIZE = 40;
     private Rectangle rect;
     private int lane; 
     private double speed;
@@ -36,6 +36,7 @@ public class Square {
     public Rectangle getShape() {
         return rect;
     }
+
 
     public void removeFromCanvas(CanvasWindow canvas) {
         canvas.remove(rect);

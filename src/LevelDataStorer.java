@@ -4,6 +4,7 @@ public class LevelDataStorer {
 
     public LevelDataStorer(String backgroundPath, String songPath) {
         this.backgroundPath = backgroundPath;
+        this.songPath = songPath;
     }
 
     public String getBackgroundPath() {
