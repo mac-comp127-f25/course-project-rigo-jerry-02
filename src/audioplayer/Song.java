@@ -9,6 +9,9 @@ import audio.Utils;
 import audio.Waveform;
 
 /**
+ * This class was adapted from the Audio Synth assignment.
+ * Any song is guaranteed to only have one gameplay note at a time; either no gameplay note or precisely one of D, F, J, or K is currently happening at any timestamp.
+ * 
  * A collection of notes that (perhaps) make music together.
  * A newly created song starts out empty — no notes.
  */

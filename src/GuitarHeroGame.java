@@ -110,19 +110,17 @@ public class GuitarHeroGame {
     
     // frame-based timer: advances currentTime and reuses tick()
     private void tickFrame() {
-        currentTime += 1.0 / 60.0;                 
+        currentTime = scroller.getTime();
         boolean done = currentTime >= song.getDuration();
-        tick(currentTime, done);     
+        tick(currentTime, done);
     }
 
     // checks if a key press hits any note in the correct lane at the right time
     private void checkHit(Input input) {
-        for (Note note : song.getNotes()) {
-            if (scroller.tryToRemove(note, currentTime)) {
-                score += 1;
-                scoreText.setText("Score: " + score);
-                return;   
-            }
+        if (scroller.tryToRemove(currentTime, input)) {
+            score += 1;
+            scoreText.setText("Score: " + score);
+            return;   
         }
         misses++;
         missesText.setText("Misses: " + misses);

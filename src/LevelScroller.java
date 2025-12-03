@@ -18,10 +18,12 @@ public class LevelScroller extends GraphicsGroup {
     public static final int MAX_PITCH = 120;
 
     private GraphicsGroup noteGroup = new GraphicsGroup();
-    private Map<Note,Rectangle> notesToRectangles = new HashMap<>();
+    private Map<Note,Rectangle> notesToRectangles = new HashMap<>(); // stores only gameplay notes, because those are the only ones displayed
     private Map<Rectangle,Note> rectanglesToNotes = new HashMap<>();
 
     private final double pixelsPerSecond, pixelsPerSemitone;
+
+    private double currentTime = 0;
 
     /**
      * Creates an empty song visualization.
@@ -37,7 +39,7 @@ public class LevelScroller extends GraphicsGroup {
     }
 
     /**
-     * Shows the notes of the given song, removing any song already present.
+     * Shows the gameplay notes of the given song, removing any song already present.
      */
     public void showSong(Song song) {
         this.removeAll();
@@ -61,15 +63,63 @@ public class LevelScroller extends GraphicsGroup {
     }
 
     /**
-     * Use this function when the user 
+     * Use this function when the user presses a key.
      */
-    public boolean tryToRemove(Note noteToRemove, double currentTime) {
-        if (noteToRemove.isHappening(currentTime) && (noteToRemove.getWaveform() instanceof audio.D || noteToRemove.getWaveform() instanceof audio.F || noteToRemove.getWaveform() instanceof audio.J || noteToRemove.getWaveform() instanceof audio.K)) {
-            Rectangle rectangleToRemove = notesToRectangles.get(noteToRemove);
-            noteGroup.remove(rectangleToRemove);
-            notesToRectangles.remove(noteToRemove);
-            rectanglesToNotes.remove(rectangleToRemove);
-            return true;
+    public boolean tryToRemove(double currentTime, Input key) {
+        // detect which note the player is trying to remove
+        Note noteToRemove = null;
+        for (Note note : notesToRectangles.keySet()) { // contract guarantees that there is only one gameplay note happening at a time
+            if (note.isHappening(currentTime)) {
+                noteToRemove = note;
+                break;
+            }
+        }
+        if (noteToRemove == null) { // if no note is happening now at all, return false and do nothing else
+            return false;
+        }
+
+        if (noteToRemove.isHappening(currentTime)) {
+            switch (key) {
+                case D:
+                    if (noteToRemove.getWaveform() instanceof audio.D) {
+                        Rectangle rectangleToRemove = notesToRectangles.get(noteToRemove);
+                        noteGroup.remove(rectangleToRemove);
+                        notesToRectangles.remove(noteToRemove);
+                        rectanglesToNotes.remove(rectangleToRemove);
+                        return true;
+                    }
+                    break;
+                case F:
+                    if (noteToRemove.getWaveform() instanceof audio.F) {
+                        Rectangle rectangleToRemove = notesToRectangles.get(noteToRemove);
+                        noteGroup.remove(rectangleToRemove);
+                        notesToRectangles.remove(noteToRemove);
+                        rectanglesToNotes.remove(rectangleToRemove);
+                        return true;
+                    }
+                    break;
+                case J:
+                    if (noteToRemove.getWaveform() instanceof audio.J) {
+                        Rectangle rectangleToRemove = notesToRectangles.get(noteToRemove);
+                        noteGroup.remove(rectangleToRemove);
+                        notesToRectangles.remove(noteToRemove);
+                        rectanglesToNotes.remove(rectangleToRemove);
+                        return true;
+                    }
+                    break;
+                case K:
+                    if (noteToRemove.getWaveform() instanceof audio.K) {
+                        Rectangle rectangleToRemove = notesToRectangles.get(noteToRemove);
+                        noteGroup.remove(rectangleToRemove);
+                        notesToRectangles.remove(noteToRemove);
+                        rectanglesToNotes.remove(rectangleToRemove);
+                        return true;
+                    }
+                    break;
+            
+                default:
+                    break;
+            }
         }
         return false;
     }
@@ -86,12 +136,19 @@ public class LevelScroller extends GraphicsGroup {
 
         // highlight currently clicked notes white
         for (Note note : notesToRectangles.keySet()) {
-            if (seconds >= note.getStartTime() && seconds <= note.getEndTime()) {
+            if (note.isHappening(seconds)) {
                 notesToRectangles.get(note).setFillColor(Color.WHITE);
             } else {
                 notesToRectangles.get(note).setFillColor(getNoteColor(note));
             }
         }
+
+        // set currentTime
+        currentTime = seconds;
+    }
+
+    public double getTime() {
+        return currentTime;
     }
 
     private Color getNoteColor(Note note) {
