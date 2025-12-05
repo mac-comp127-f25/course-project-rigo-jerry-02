@@ -15,12 +15,10 @@ import edu.macalester.graphics.Rectangle;
  * Visualizes a Song as a collection of multicolored rectangles.
  */
 public class LevelScroller extends GraphicsGroup {
-    public static final int MAX_PITCH = 120;
     private static final double LANE_WIDTH = 150;
     private static final double LANE_START_X = 260;
 
     private static final double NOTE_WIDTH = 40;
-    private static final double NOTE_HEIGHT = 80;
 
     private GraphicsGroup noteGroup = new GraphicsGroup();
     private Map<Note,Rectangle> notesToRectangles = new HashMap<>(); // stores only gameplay notes, because those are the only ones displayed
@@ -29,6 +27,7 @@ public class LevelScroller extends GraphicsGroup {
     private final double pixelsPerSecond, pixelsPerSemitone;
 
     private double currentTime = 0;
+    private double songFinishTime = 0;
 
     /**
      * Creates an empty song visualization.
@@ -52,8 +51,29 @@ public class LevelScroller extends GraphicsGroup {
         add(noteGroup);
 
         for (Note note : song.getNotes()) {
-            if (note.getWaveform() instanceof audio.D || note.getWaveform() instanceof audio.F || note.getWaveform() instanceof audio.J || note.getWaveform() instanceof audio.K) {
-                Rectangle noteRectangle = new Rectangle(note.getStartTime() * pixelsPerSecond, (MAX_PITCH - note.getPitch()) * pixelsPerSemitone, note.getDuration() * pixelsPerSecond, pixelsPerSemitone);
+            if (note.getWaveform() instanceof audio.D) {
+                Rectangle noteRectangle = new Rectangle(LANE_START_X, -note.getStartTime() * pixelsPerSecond, NOTE_WIDTH, note.getDuration() * pixelsPerSecond);
+                noteRectangle.setStrokeWidth(0.5);
+                noteRectangle.setFillColor(getNoteColor(note));
+                noteGroup.add(noteRectangle);
+                notesToRectangles.put(note, noteRectangle);
+                rectanglesToNotes.put(noteRectangle, note);
+            } else if (note.getWaveform() instanceof audio.F) {
+                Rectangle noteRectangle = new Rectangle(LANE_START_X + LANE_WIDTH, -note.getStartTime() * pixelsPerSecond, NOTE_WIDTH, note.getDuration() * pixelsPerSecond);
+                noteRectangle.setStrokeWidth(0.5);
+                noteRectangle.setFillColor(getNoteColor(note));
+                noteGroup.add(noteRectangle);
+                notesToRectangles.put(note, noteRectangle);
+                rectanglesToNotes.put(noteRectangle, note);
+            } else if (note.getWaveform() instanceof audio.J) {
+                Rectangle noteRectangle = new Rectangle(LANE_START_X + LANE_WIDTH * 2, -note.getStartTime() * pixelsPerSecond, NOTE_WIDTH, note.getDuration() * pixelsPerSecond);
+                noteRectangle.setStrokeWidth(0.5);
+                noteRectangle.setFillColor(getNoteColor(note));
+                noteGroup.add(noteRectangle);
+                notesToRectangles.put(note, noteRectangle);
+                rectanglesToNotes.put(noteRectangle, note);
+            } else if (note.getWaveform() instanceof audio.K) {
+                Rectangle noteRectangle = new Rectangle(LANE_START_X + LANE_WIDTH * 3, -note.getStartTime() * pixelsPerSecond, NOTE_WIDTH, note.getDuration() * pixelsPerSecond);
                 noteRectangle.setStrokeWidth(0.5);
                 noteRectangle.setFillColor(getNoteColor(note));
                 noteGroup.add(noteRectangle);
@@ -61,6 +81,8 @@ public class LevelScroller extends GraphicsGroup {
                 rectanglesToNotes.put(noteRectangle, note);
             }
         }
+
+        songFinishTime = song.getDuration();
     }
 
     @Override
@@ -153,7 +175,7 @@ public class LevelScroller extends GraphicsGroup {
      */
     public void setTime(double seconds, boolean done) {
         // move noteGroup to scroll display
-        noteGroup.setPosition((2 - seconds) * pixelsPerSecond, getPosition().getY()); // noteGroup is 2 seconds further to the right than normal because highlighting notes looks cooler when you can see them unhighlight again
+        noteGroup.setPosition(getPosition().getX(), (seconds + 4) * pixelsPerSecond); // noteGroup is 2 seconds further to the right than normal because highlighting notes looks cooler when you can see them unhighlight again
 
         // highlight currently clicked notes white
         for (Note note : notesToRectangles.keySet()) {
@@ -170,6 +192,10 @@ public class LevelScroller extends GraphicsGroup {
 
     public double getTime() {
         return currentTime;
+    }
+
+    public Boolean hasFinished(double seconds) {
+        return seconds > songFinishTime;
     }
 
     // Check lane key user pressed on the actual note
