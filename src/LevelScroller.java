@@ -181,8 +181,10 @@ public class LevelScroller extends GraphicsGroup {
         for (Note note : notesToRectangles.keySet()) {
             if (note.isHappening(seconds)) {
                 notesToRectangles.get(note).setFillColor(Color.WHITE);
-            } else {
+            } else if (seconds <= note.getStartTime()) {
                 notesToRectangles.get(note).setFillColor(getNoteColor(note));
+            } else {
+                notesToRectangles.get(note).setFillColor(Color.PINK);
             }
         }
 
