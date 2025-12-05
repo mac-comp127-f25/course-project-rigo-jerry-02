@@ -7,7 +7,6 @@ import java.awt.Color;
 
 import audioplayer.Song;
 import audioplayer.SongReader;
-import audioplayer.Note;
 
 public class GuitarHeroGame {
     private static final int CANVAS_WIDTH = 1060;
@@ -42,13 +41,27 @@ public class GuitarHeroGame {
         setupHud(); 
 
         canvas.animate(this::tickFrame);
-        song.renderAudio().play(this::tick);  
+        song.renderAudio().play(this::tick); 
+
+
+
     }
 
     //draws the background image behind everything
     private void drawBackground() {
         Image bg = new Image(0,0, "background.png");
         canvas.add(bg);
+    }
+
+    private void drawFinishScreen() {
+        Image finishImage = new Image(0,0, "End.png");
+        canvas.add(finishImage);
+    }
+
+    private void cleanScreen() {
+  
+            canvas.removeAll();
+            drawFinishScreen();
     }
 
     // reads the CSV into a Song, creates the LevelScroller, and shows the notes
@@ -121,6 +134,10 @@ public class GuitarHeroGame {
         negativeScore = misses * (misses + 1) / 2; // formula for the nth triangular number (every time you miss you lose as many points as every time you've missed over the course of the game)
         score = positiveScore - negativeScore;
         scoreText.setText("Score: " + score);
+
+        if (done) {
+            cleanScreen();
+        }
     }
     
     // frame-based timer: advances currentTime and reuses tick()
