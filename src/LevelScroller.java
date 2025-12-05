@@ -52,28 +52,28 @@ public class LevelScroller extends GraphicsGroup {
 
         for (Note note : song.getNotes()) {
             if (note.getWaveform() instanceof audio.D) {
-                Rectangle noteRectangle = new Rectangle(LANE_START_X, -note.getStartTime() * pixelsPerSecond, NOTE_WIDTH, note.getDuration() * pixelsPerSecond);
+                Rectangle noteRectangle = new Rectangle(LANE_START_X, -note.getEndTime() * pixelsPerSecond, NOTE_WIDTH, note.getDuration() * pixelsPerSecond);
                 noteRectangle.setStrokeWidth(0.5);
                 noteRectangle.setFillColor(getNoteColor(note));
                 noteGroup.add(noteRectangle);
                 notesToRectangles.put(note, noteRectangle);
                 rectanglesToNotes.put(noteRectangle, note);
             } else if (note.getWaveform() instanceof audio.F) {
-                Rectangle noteRectangle = new Rectangle(LANE_START_X + LANE_WIDTH, -note.getStartTime() * pixelsPerSecond, NOTE_WIDTH, note.getDuration() * pixelsPerSecond);
+                Rectangle noteRectangle = new Rectangle(LANE_START_X + LANE_WIDTH, -note.getEndTime() * pixelsPerSecond, NOTE_WIDTH, note.getDuration() * pixelsPerSecond);
                 noteRectangle.setStrokeWidth(0.5);
                 noteRectangle.setFillColor(getNoteColor(note));
                 noteGroup.add(noteRectangle);
                 notesToRectangles.put(note, noteRectangle);
                 rectanglesToNotes.put(noteRectangle, note);
             } else if (note.getWaveform() instanceof audio.J) {
-                Rectangle noteRectangle = new Rectangle(LANE_START_X + LANE_WIDTH * 2, -note.getStartTime() * pixelsPerSecond, NOTE_WIDTH, note.getDuration() * pixelsPerSecond);
+                Rectangle noteRectangle = new Rectangle(LANE_START_X + LANE_WIDTH * 2, -note.getEndTime() * pixelsPerSecond, NOTE_WIDTH, note.getDuration() * pixelsPerSecond);
                 noteRectangle.setStrokeWidth(0.5);
                 noteRectangle.setFillColor(getNoteColor(note));
                 noteGroup.add(noteRectangle);
                 notesToRectangles.put(note, noteRectangle);
                 rectanglesToNotes.put(noteRectangle, note);
             } else if (note.getWaveform() instanceof audio.K) {
-                Rectangle noteRectangle = new Rectangle(LANE_START_X + LANE_WIDTH * 3, -note.getStartTime() * pixelsPerSecond, NOTE_WIDTH, note.getDuration() * pixelsPerSecond);
+                Rectangle noteRectangle = new Rectangle(LANE_START_X + LANE_WIDTH * 3, -note.getEndTime() * pixelsPerSecond, NOTE_WIDTH, note.getDuration() * pixelsPerSecond);
                 noteRectangle.setStrokeWidth(0.5);
                 noteRectangle.setFillColor(getNoteColor(note));
                 noteGroup.add(noteRectangle);

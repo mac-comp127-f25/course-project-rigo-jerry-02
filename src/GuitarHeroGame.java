@@ -68,11 +68,11 @@ public class GuitarHeroGame {
         String fileName = "song.csv";
         song = new SongReader().readSong(fileName);
 
-        double pixelsPerSecond = 147.5;
+        double pixelsPerSecond = 166;
         double pixelsPerSemitone = 6;
 
         scroller = new LevelScroller(pixelsPerSecond, pixelsPerSemitone);
-        scroller.setPosition(0, 0); 
+        scroller.setPosition(0, 0);
         canvas.add(scroller);
 
         scroller.showSong(song);
@@ -149,7 +149,7 @@ public class GuitarHeroGame {
     // checks if a key press hits any note in the correct lane at the right time and updates the score if necessary
     private void checkHit(Input input) {
         if (scroller.tryToRemove(currentTime, input)) {
-            positiveScore += 1;
+            positiveScore += 3;
             score = positiveScore - negativeScore;
             scoreText.setText("Score: " + score);
         } else {
