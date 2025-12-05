@@ -13,7 +13,9 @@ public class GuitarHeroGame {
     private static final int CANVAS_WIDTH = 1060;
     private static final int CANVAS_HEIGHT = 800;
 
-    private int score = 0;
+    private int score = 0; // total score
+    private int positiveScore = 0; // points gained
+    private int negativeScore = 0; // points lost by missing
     private int misses = 0; // all misses
     private int wrongKeyMisses = 0; // misses incurred by pressing something
     private int nothingMisses = 0; // misses incurred by not pressing something
@@ -101,10 +103,10 @@ public class GuitarHeroGame {
         }
         if (fHandler.isPressed()) {
             checkHit(Input.F);
-        } 
+        }
         if (jHandler.isPressed()) {
             checkHit(Input.J);
-        } 
+        }
         if (kHandler.isPressed()) {
             checkHit(Input.K);
         }
@@ -116,6 +118,9 @@ public class GuitarHeroGame {
         nothingMisses = scroller.numMissedNotes(seconds);
         misses = nothingMisses + wrongKeyMisses;
         missesText.setText("Misses: " + misses);
+        negativeScore = misses * (misses + 1) / 2; // formula for the nth triangular number (every time you miss you lose as many points as every time you've missed over the course of the game)
+        score = positiveScore - negativeScore;
+        scoreText.setText("Score: " + score);
     }
     
     // frame-based timer: advances currentTime and reuses tick()
@@ -125,10 +130,11 @@ public class GuitarHeroGame {
         tick(currentTime, done);
     }
 
-    // checks if a key press hits any note in the correct lane at the right time
+    // checks if a key press hits any note in the correct lane at the right time and updates the score if necessary
     private void checkHit(Input input) {
         if (scroller.tryToRemove(currentTime, input)) {
-            score += 1;
+            positiveScore += 1;
+            score = positiveScore - negativeScore;
             scoreText.setText("Score: " + score);
         } else {
             wrongKeyMisses++;
