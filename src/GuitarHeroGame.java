@@ -14,7 +14,9 @@ public class GuitarHeroGame {
     private static final int CANVAS_HEIGHT = 800;
 
     private int score = 0;
-    private int misses = 0;
+    private int misses = 0; // all misses
+    private int wrongKeyMisses = 0; // misses incurred by pressing something
+    private int nothingMisses = 0; // misses incurred by not pressing something
     private Song song; 
     private CanvasWindow canvas;
     private LevelScroller scroller;
@@ -110,6 +112,10 @@ public class GuitarHeroGame {
         fHandler.doFrame();
         jHandler.doFrame();
         kHandler.doFrame();
+
+        nothingMisses = scroller.numMissedNotes(seconds);
+        misses = nothingMisses + wrongKeyMisses;
+        missesText.setText("Misses: " + misses);
     }
     
     // frame-based timer: advances currentTime and reuses tick()
@@ -125,7 +131,8 @@ public class GuitarHeroGame {
             score += 1;
             scoreText.setText("Score: " + score);
         } else {
-            misses++;
+            wrongKeyMisses++;
+            misses = wrongKeyMisses + nothingMisses;
             missesText.setText("Misses: " + misses);
         }
     }

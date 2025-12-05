@@ -133,6 +133,19 @@ public class LevelScroller extends GraphicsGroup {
     }
 
     /**
+     * Returns the number of notes that have passed by without being clicked on, as of the input time.
+     */
+    public int numMissedNotes(double seconds) {
+        int total = 0;
+        for (Note note : notesToRectangles.keySet()) {
+            if (note.getEndTime() < seconds) {
+                total++;
+            }
+        }
+        return total;
+    }
+
+    /**
      * Moves the visualization to show that the given time is the current time.
      *
      * @param seconds Time from the beginning of the song
@@ -159,7 +172,7 @@ public class LevelScroller extends GraphicsGroup {
         return currentTime;
     }
 
-    // Check lane key user pressed ot the actual note
+    // Check lane key user pressed on the actual note
     private boolean matchesKey(Note note, Input key) {
         Waveform wf = note.getWaveform();
 
