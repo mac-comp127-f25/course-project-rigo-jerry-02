@@ -82,7 +82,11 @@ public class GuitarHeroGame {
         jHandler = new InputHandler(Input.J);
         kHandler = new InputHandler(Input.K);
 
-        canvas.onKeyDown((KeyboardEvent e) -> {dHandler.pollInput(e);fHandler.pollInput(e);jHandler.pollInput(e);kHandler.pollInput(e);
+        canvas.onKeyDown((KeyboardEvent e) -> {
+            dHandler.pollInput(e);
+            fHandler.pollInput(e);
+            jHandler.pollInput(e);
+            kHandler.pollInput(e);
         });
     }
 
@@ -120,10 +124,10 @@ public class GuitarHeroGame {
         if (scroller.tryToRemove(currentTime, input)) {
             score += 1;
             scoreText.setText("Score: " + score);
-            return;
+        } else {
+            misses++;
+            missesText.setText("Misses: " + misses);
         }
-        misses++;
-        missesText.setText("Misses: " + misses);
     }
 
     public static void main(String[] args) {

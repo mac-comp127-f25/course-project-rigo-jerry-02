@@ -16,6 +16,11 @@ import edu.macalester.graphics.Rectangle;
  */
 public class LevelScroller extends GraphicsGroup {
     public static final int MAX_PITCH = 120;
+    private static final double LANE_WIDTH = 150;
+    private static final double LANE_START_X = 260;
+
+    private static final double NOTE_WIDTH = 40;
+    private static final double NOTE_HEIGHT = 80;
 
     private GraphicsGroup noteGroup = new GraphicsGroup();
     private Map<Note,Rectangle> notesToRectangles = new HashMap<>(); // stores only gameplay notes, because those are the only ones displayed
@@ -43,6 +48,9 @@ public class LevelScroller extends GraphicsGroup {
      */
     public void showSong(Song song) {
         this.removeAll();
+        notesToRectangles.clear();
+        add(noteGroup);
+
         for (Note note : song.getNotes()) {
             if (note.getWaveform() instanceof audio.D || note.getWaveform() instanceof audio.F || note.getWaveform() instanceof audio.J || note.getWaveform() instanceof audio.K) {
                 Rectangle noteRectangle = new Rectangle(note.getStartTime() * pixelsPerSecond, (MAX_PITCH - note.getPitch()) * pixelsPerSemitone, note.getDuration() * pixelsPerSecond, pixelsPerSemitone);
@@ -69,7 +77,7 @@ public class LevelScroller extends GraphicsGroup {
         // detect which note the player is trying to remove
         Note noteToRemove = null;
         for (Note note : notesToRectangles.keySet()) { // contract guarantees that there is only one gameplay note happening at a time
-            if (note.isHappening(currentTime)) {
+            if (note.isHappening(currentTime) && matchesKey(note, key)) {
                 noteToRemove = note;
                 break;
             }
@@ -149,6 +157,23 @@ public class LevelScroller extends GraphicsGroup {
 
     public double getTime() {
         return currentTime;
+    }
+
+    // Check lane key user pressed ot the actual note
+    private boolean matchesKey(Note note, Input key) {
+        Waveform wf = note.getWaveform();
+
+        if (key == Input.D && wf instanceof audio.D) {
+            return true;
+        } else if (key == Input.F && wf instanceof audio.F) {
+            return true;
+        } else if (key == Input.J && wf instanceof audio.J) {
+            return true;
+        } else if (key == Input.K && wf instanceof audio.K) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private Color getNoteColor(Note note) {
