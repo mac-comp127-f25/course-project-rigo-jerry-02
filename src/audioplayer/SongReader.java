@@ -40,6 +40,12 @@ public class SongReader {
         waveforms.put("square", new SquareWave());
         waveforms.put("saw", new SawtoothWave());
         waveforms.put("noise", new RandomNoise());
+        waveforms.put("quart", new QuarterPulseWave());
+        waveforms.put("half", new HalfTriangleWave());
+        waveforms.put("period", new PeriodicNoise());
+        waveforms.put("chorus", new ChorusSquareWave());
+        waveforms.put("quiet", new QuietSineWave());
+        waveforms.put("qnoise", new QuietNoise());
         waveforms.put("d", new D());
         waveforms.put("f", new F());
         waveforms.put("j", new J());
@@ -67,6 +73,12 @@ public class SongReader {
             double pitch = scanner.nextDouble();
             double startTime = scanner.nextDouble();
             double duration = scanner.nextDouble();
+            if (waveform instanceof D || waveform instanceof F || waveform instanceof J || waveform instanceof K) {
+                startTime -= Math.min(0.15, duration * 0.25);
+                if (startTime < 0) {
+                    startTime = 0;
+                }
+            }
             song.addNote(new Note(waveform, pitch, startTime, duration));
         }
         return song;

@@ -49,7 +49,7 @@ public class GuitarHeroGame {
 
     // reads the CSV into a Song, creates the LevelScroller, and shows the notes
     private void setupSongAndScroller() {
-        String fileName = "kondo.csv";  
+        String fileName = "song.csv";
         song = new SongReader().readSong(fileName);
 
         double pixelsPerSecond = 80;  
@@ -120,7 +120,7 @@ public class GuitarHeroGame {
         if (scroller.tryToRemove(currentTime, input)) {
             score += 1;
             scoreText.setText("Score: " + score);
-            return;   
+            return;
         }
         misses++;
         missesText.setText("Misses: " + misses);
