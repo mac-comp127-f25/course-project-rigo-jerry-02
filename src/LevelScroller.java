@@ -177,7 +177,7 @@ public class LevelScroller extends GraphicsGroup {
         // move noteGroup to scroll display
         noteGroup.setPosition(getPosition().getX(), (seconds + 4) * pixelsPerSecond); // noteGroup is 2 seconds further to the right than normal because highlighting notes looks cooler when you can see them unhighlight again
 
-        // highlight currently clicked notes white
+        // highlight currently playing notes white
         for (Note note : notesToRectangles.keySet()) {
             if (note.isHappening(seconds)) {
                 notesToRectangles.get(note).setFillColor(Color.WHITE);

@@ -59,9 +59,8 @@ public class GuitarHeroGame {
     }
 
     private void cleanScreen() {
-  
-            canvas.removeAll();
-            drawFinishScreen();
+        canvas.removeAll();
+        drawFinishScreen();
     }
 
     // reads the CSV into a Song, creates the LevelScroller, and shows the notes
@@ -69,7 +68,7 @@ public class GuitarHeroGame {
         String fileName = "song.csv";
         song = new SongReader().readSong(fileName);
 
-        double pixelsPerSecond = 80;  
+        double pixelsPerSecond = 147.5;
         double pixelsPerSemitone = 6;
 
         scroller = new LevelScroller(pixelsPerSecond, pixelsPerSemitone);
