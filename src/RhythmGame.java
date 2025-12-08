@@ -8,7 +8,7 @@ import java.awt.Color;
 import audioplayer.Song;
 import audioplayer.SongReader;
 
-public class GuitarHeroGame {
+public class RhythmGame {
     private static final int CANVAS_WIDTH = 1150;
     private static final int CANVAS_HEIGHT = 1000;
 
@@ -32,7 +32,7 @@ public class GuitarHeroGame {
     private GraphicsText missesText;
     
 
-    public GuitarHeroGame() {
+    public RhythmGame() {
         canvas = new CanvasWindow("Guitar Hero", CANVAS_WIDTH, CANVAS_HEIGHT);
 
         drawBackground();
@@ -92,7 +92,7 @@ public class GuitarHeroGame {
 
     // reads the CSV into a Song, creates the LevelScroller, and shows the notes
     private void setupSongAndScroller() {
-        String fileName = "new-sounds-test.csv";
+        String fileName = "song.csv";
         song = new SongReader().readSong(fileName);
 
         double pixelsPerSecond = 166;
@@ -187,6 +187,6 @@ public class GuitarHeroGame {
     }
 
     public static void main(String[] args) {
-        new GuitarHeroGame();
+        new RhythmGame();
     }
 }
