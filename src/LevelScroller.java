@@ -15,8 +15,8 @@ import edu.macalester.graphics.Rectangle;
  * Visualizes a Song as a collection of multicolored rectangles.
  */
 public class LevelScroller extends GraphicsGroup {
-    private static final double LANE_WIDTH = 150;
-    private static final double LANE_START_X = 260;
+    private static final double LANE_WIDTH = 170;
+    private static final double LANE_START_X = 290;
 
     private static final double NOTE_WIDTH = 40;
 

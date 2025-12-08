@@ -18,7 +18,7 @@ public class RhythmGame {
     private int misses = 0; // all misses
     private int wrongKeyMisses = 0; // misses incurred by pressing something
     private int nothingMisses = 0; // misses incurred by not pressing something
-    private Song song; 
+    private Song song;
     private CanvasWindow canvas;
     private LevelScroller scroller;
     private double currentTime = 0;   
@@ -33,18 +33,15 @@ public class RhythmGame {
     
 
     public RhythmGame() {
-        canvas = new CanvasWindow("Guitar Hero", CANVAS_WIDTH, CANVAS_HEIGHT);
+        canvas = new CanvasWindow("Rhythm Game", CANVAS_WIDTH, CANVAS_HEIGHT);
 
         drawBackground();
         setupSongAndScroller();
-        setupInput();            
-        setupHud(); 
+        setupInput();
+        setupHud();
 
         canvas.animate(this::tickFrame);
-        song.renderAudio().play(this::tick); 
-
-
-
+        song.renderAudio().play(this::tick);
     }
 
     //draws the background image behind everything
@@ -59,20 +56,22 @@ public class RhythmGame {
         canvas.add(finishImage);
 
         GraphicsText finishMessage = new GraphicsText();
-        if (score >= 563) { // TODO: make this the actual perfect score when the gameplay is done
+        if (score >= 519) {
             finishMessage.setText("Player is perfect");
-        } else if (score > 200) {
+        } else if (score > 375) {
+            finishMessage.setText("Player is spectacular");
+        } else if (score > 250) {
             finishMessage.setText("Player is cracked");
-        } else if (score > 100) {
+        } else if (score > 125) {
             finishMessage.setText("Player is based");
         } else if (score > 0) {
             finishMessage.setText("Player is ok");
         } else if (score > -100) {
             finishMessage.setText("Player is cooked");
-        } else if (score > -200000) {
+        } else if (score > -50000) {
             finishMessage.setText("Player is incompetent");
         } else {
-            finishMessage.setText("Bruh"); //yes, this is possible
+            finishMessage.setText("Bruh"); //yes, this is possible (but it can basically only happen on purpose)
         }
         GraphicsText finishScoreText = new GraphicsText("Score: " + score);
         finishMessage.setFontSize(40);
