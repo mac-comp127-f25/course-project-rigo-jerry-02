@@ -9,8 +9,8 @@ import audioplayer.Song;
 import audioplayer.SongReader;
 
 public class GuitarHeroGame {
-    private static final int CANVAS_WIDTH = 1060;
-    private static final int CANVAS_HEIGHT = 800;
+    private static final int CANVAS_WIDTH = 1150;
+    private static final int CANVAS_HEIGHT = 1000;
 
     private int score = 0; // total score
     private int positiveScore = 0; // points gained
