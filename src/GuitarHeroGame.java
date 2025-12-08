@@ -53,11 +53,38 @@ public class GuitarHeroGame {
         canvas.add(bg);
     }
 
+    //draws the level end screen
     private void drawFinishScreen() {
         Image finishImage = new Image(0,0, "End.png");
         canvas.add(finishImage);
+
+        GraphicsText finishMessage = new GraphicsText();
+        if (score >= 563) { // TODO: make this the actual perfect score when the gameplay is done
+            finishMessage.setText("Player is perfect");
+        } else if (score > 200) {
+            finishMessage.setText("Player is cracked");
+        } else if (score > 100) {
+            finishMessage.setText("Player is based");
+        } else if (score > 0) {
+            finishMessage.setText("Player is ok");
+        } else if (score > -100) {
+            finishMessage.setText("Player is cooked");
+        } else if (score > -200000) {
+            finishMessage.setText("Player is incompetent");
+        } else {
+            finishMessage.setText("Bruh"); //yes, this is possible
+        }
+        GraphicsText finishScoreText = new GraphicsText("Score: " + score);
+        finishMessage.setFontSize(40);
+        finishMessage.setCenter(CANVAS_WIDTH/2, CANVAS_HEIGHT * 0.3);
+        finishScoreText.setFontSize(70);
+        finishScoreText.setCenter(CANVAS_WIDTH/2, CANVAS_HEIGHT * 0.35);
+
+        canvas.add(finishMessage);
+        canvas.add(finishScoreText);
     }
 
+    //resets the screen when the level ends to make room for the level end screen
     private void cleanScreen() {
         canvas.removeAll();
         drawFinishScreen();
@@ -65,7 +92,7 @@ public class GuitarHeroGame {
 
     // reads the CSV into a Song, creates the LevelScroller, and shows the notes
     private void setupSongAndScroller() {
-        String fileName = "song.csv";
+        String fileName = "new-sounds-test.csv";
         song = new SongReader().readSong(fileName);
 
         double pixelsPerSecond = 166;
