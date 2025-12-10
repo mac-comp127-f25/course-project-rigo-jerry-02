@@ -55,6 +55,11 @@ public class RhythmGame {
         Image finishImage = new Image(0,0, "End.png");
         canvas.add(finishImage);
 
+        double scaleX = CANVAS_WIDTH  / finishImage.getWidth();
+        double scaleY = CANVAS_HEIGHT / finishImage.getHeight();
+        double scale = Math.max(scaleX, scaleY);
+        finishImage.setScale(scale, scale);
+
         GraphicsText finishMessage = new GraphicsText();
         if (score >= 519) {
             finishMessage.setText("Player is perfect");
