@@ -10,7 +10,7 @@ import audioplayer.SongReader;
 
 public class RhythmGame {
     private static final int CANVAS_WIDTH = 1150;
-    private static final int CANVAS_HEIGHT = 1000;
+    private static final int CANVAS_HEIGHT = 850;
 
     private int score = 0; // total score
     private int positiveScore = 0; // points gained
