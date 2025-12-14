@@ -1,0 +1,11 @@
+d, 0, 0, 9
+
+quart, 40, 1, 1
+half, 40, 2, 1
+period, 40, 3, 1
+chorus, 40, 4, 1
+quiet, 40, 5, 1
+noise, 1, 6, 0.5
+noise, 10, 6.5, 0.5
+noise, 20, 7, 0.5
+noise, 30, 7.5, 0.5
